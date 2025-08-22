@@ -100,6 +100,11 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', stateless: USE_STATELESS_MODE });
 });
 
+// Add logging middleware for auth routes
+app.use('/api/auth', (req, res, next) => {
+  console.log(`Auth route: ${req.method} ${req.path}`);
+  next();
+});
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/courses', require('./routes/courses'));
@@ -123,7 +128,7 @@ app.use('*', (req, res) => {
 });
 
 connectDB().then(() => {
-  const server = app.listen(PORT, () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
   });
   
