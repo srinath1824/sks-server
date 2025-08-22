@@ -37,9 +37,7 @@ if (process.env.ENABLE_NEWRELIC === 'true') {
 
 // Security middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com'] 
-    : true,
+  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : true,
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
